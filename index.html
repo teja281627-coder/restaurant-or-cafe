@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Antigravity Bistro & POS - Weightless Dining & Digital Ordering Platform.">
+  <title>ANTIGRAVITY // Bistro & POS</title>
+  <link rel="stylesheet" href="styles.css?v=2.0">
+</head>
+<body>
+
+  <!-- Main App Viewport Container (Centred desktop simulation, full mobile view) -->
+  <div class="app-container" id="appContainer">
+    
+    <!-- Glassmorphic Antigravity Header -->
+    <header>
+      <div class="brand-section">
+        <div class="brand-logo" aria-label="Saffron & Spice Logo">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+        <h1 class="brand-name">SAFFRON & <span>SPICE</span></h1>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <button id="adminToggleBtn" aria-label="Toggle Admin View">ADMIN</button>
+        <button class="cart-trigger-btn" id="cartTrigger" aria-label="Shopping Cart">
+          <svg viewBox="0 0 24 24">
+            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Top App View Switcher Tabs -->
+    <nav class="app-nav-tabs" id="appNavTabs">
+      <button class="nav-tab active" id="tabMenuBtn" data-view="menuView">
+        <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.55 3.89 3.57 4.19L6 22h2l-.43-8.81C9.55 12.89 11 11.12 11 9zm5-7v7h2V2h-2zm0 9v11h2V11h-2z"/></svg>
+        Food Menu
+      </button>
+      <button class="nav-tab" id="tabReservationBtn" data-view="reservationView">
+        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+        Book Table
+      </button>
+    </nav>
+
+    <!-- SCREEN 1: Menu Card View -->
+    <div id="menuView" class="view-section active">
+      <!-- Hero Banner -->
+      <div class="hero-container">
+        <div class="hero-banner">
+          <img src="images/hero_banner.png" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80';" alt="Saffron & Spice Fine Dining">
+          <div class="hero-overlay">
+            <h2 class="hero-title">Saffron & Spice</h2>
+            <p class="hero-subtitle">Authentic flavours & fine dining, cooked with love and precision.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search dishes or ingredients...">
+      </div>
+
+      <!-- Scrollable Category Pills -->
+      <div class="categories-container">
+        <nav class="categories-scroll" id="categoriesScroll">
+          <button class="category-pill active" data-category="all">All Dishes</button>
+          <button class="category-pill" data-category="Appetizers">Appetizers</button>
+          <button class="category-pill" data-category="Main Course">Main Course</button>
+          <button class="category-pill" data-category="Beverages">Beverages</button>
+          <button class="category-pill" data-category="Dessert">Desserts</button>
+        </nav>
+      </div>
+
+      <!-- Section Title & Grid -->
+      <div class="section-header-row" style="padding: 0 20px 10px 20px;">
+        <h3 class="section-title" id="currentCategoryTitle">All Dishes</h3>
+      </div>
+      <div class="menu-section" id="menuGrid">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+
+    <!-- SCREEN 2: Table Reservation View -->
+    <div id="reservationView" class="view-section">
+      <div class="hero-container" style="padding-bottom: 10px;">
+        <div class="hero-banner res-banner">
+          <img src="images/hero_banner.png" alt="Antigravity dining room">
+          <div class="hero-overlay">
+            <h2 class="hero-title">Table Reservation</h2>
+            <p class="hero-subtitle">Select your schedule & reserve a floating dining space.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 1: Schedule & Date Selection -->
+      <div class="res-step-card">
+        <div class="res-step-header">
+          <span class="step-badge">1</span>
+          <div>
+            <h3 class="step-title">Date & Schedule</h3>
+            <p class="step-subtitle">Select dining day & meal schedule</p>
+          </div>
+        </div>
+        
+        <div class="date-pills-row" id="datePillsRow">
+          <button class="date-pill active" data-date="today">Today</button>
+          <button class="date-pill" data-date="tomorrow">Tomorrow</button>
+          <div class="custom-date-wrapper">
+            <input type="date" id="customDatePicker" class="custom-date-input" aria-label="Select Date">
+          </div>
+        </div>
+
+        <div class="meal-toggle-row" id="mealToggleRow">
+          <button class="meal-toggle-btn active" data-meal="lunch">Lunch (12:00 - 3:30 PM)</button>
+          <button class="meal-toggle-btn" data-meal="dinner">Dinner (6:30 - 10:30 PM)</button>
+        </div>
+
+        <div>
+          <span class="field-label">Available Time Slots:</span>
+          <div class="time-slots-grid" id="timeSlotsGrid"></div>
+        </div>
+      </div>
+
+      <!-- Step 2: Table Selection Grid -->
+      <div class="res-step-card">
+        <div class="res-step-header">
+          <span class="step-badge">2</span>
+          <div>
+            <h3 class="step-title">Select Table</h3>
+            <p class="step-subtitle">Pick an available seating suite</p>
+          </div>
+        </div>
+
+        <div class="table-legend">
+          <div class="legend-item"><span class="legend-dot available"></span> Available</div>
+          <div class="legend-item"><span class="legend-dot selected"></span> Selected</div>
+          <div class="legend-item"><span class="legend-dot booked"></span> Booked</div>
+        </div>
+
+        <div class="tables-grid" id="tablesGrid"></div>
+      </div>
+
+      <!-- Step 3: Guest Details Form -->
+      <div class="res-step-card">
+        <div class="res-step-header">
+          <span class="step-badge">3</span>
+          <div>
+            <h3 class="step-title">Guest Info</h3>
+            <p class="step-subtitle">Contact info to complete reservation</p>
+          </div>
+        </div>
+
+        <div class="res-form">
+          <div class="form-group">
+            <label>Party Size</label>
+            <div class="guest-pills-row" id="guestPillsRow">
+              <button class="guest-pill" data-guests="1">1</button>
+              <button class="guest-pill active" data-guests="2">2</button>
+              <button class="guest-pill" data-guests="4">4</button>
+              <button class="guest-pill" data-guests="6">6</button>
+              <button class="guest-pill" data-guests="8">8+</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="resCustomerName">Guest Name *</label>
+            <input type="text" id="resCustomerName" placeholder="Enter guest full name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="resCustomerPhone">Phone Number *</label>
+            <input type="tel" id="resCustomerPhone" placeholder="Enter 10-digit mobile number" required>
+          </div>
+
+          <div class="form-group">
+            <label for="resOccasion">Occasion</label>
+            <select id="resOccasion" class="res-select-input">
+              <option value="Casual Dining">Casual Dining</option>
+              <option value="Birthday Celebration">Birthday Celebration</option>
+              <option value="Anniversary">Anniversary</option>
+              <option value="Business Meeting">Business Meeting</option>
+              <option value="Romantic Dinner">Romantic Dinner</option>
+            </select>
+          </div>
+
+          <div class="res-summary-card" id="resSummaryCard">
+            <div class="summary-line"><span>Schedule:</span><strong id="summaryDateTimeText">Today • 7:30 PM</strong></div>
+            <div class="summary-line"><span>Table:</span><strong id="summaryTableText">Table 3</strong></div>
+            <div class="summary-line"><span>Guests:</span><strong id="summaryGuestsText">2 Guests</strong></div>
+          </div>
+
+          <button class="confirm-res-btn" id="confirmResBtn">Confirm Table Booking</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: Confirmation Screen -->
+    <div id="confirmationView" class="view-section">
+      <div class="confirmation-card">
+        <div class="success-icon-wrapper">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+          </svg>
+        </div>
+        <h2 class="confirmation-title" id="confirmationTitle">Order Sent!</h2>
+        <p class="confirmation-desc" id="confirmationDesc">Your order has been sent to the kitchen.</p>
+        <div class="order-id-badge" id="orderIdText">Order ID: #SS-0000</div>
+        
+        <div class="delivery-summary-card" id="deliverySummaryCard" style="display: none;">
+          <span class="delivery-to-title" id="confirmSummaryHeader">Summary Details</span>
+          <p class="delivery-to-name" id="confirmCustomerName"></p>
+          <p class="delivery-to-address" id="confirmCustomerAddress"></p>
+        </div>
+
+        <div class="feedback-box" id="feedbackBox">
+          <p class="feedback-prompt">Rate your experience</p>
+          <div class="stars-row" id="starsRow">
+            <button class="star-btn" data-value="1" aria-label="1 star"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button>
+            <button class="star-btn" data-value="2" aria-label="2 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button>
+            <button class="star-btn" data-value="3" aria-label="3 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button>
+            <button class="star-btn" data-value="4" aria-label="4 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button>
+            <button class="star-btn" data-value="5" aria-label="5 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button>
+          </div>
+          <div class="feedback-submitted-msg" id="feedbackSuccessMsg">Thank you for rating!</div>
+        </div>
+
+        <button class="back-to-menu-btn" id="backToMenuBtn">Return to Menu</button>
+      </div>
+    </div>
+
+    <!-- SCREEN 4: Admin Dashboard -->
+    <div id="adminView" class="view-section">
+      <div class="hero-container" style="padding-bottom: 0;">
+        <h2 class="section-title" style="font-size: 20px;">ANTIGRAVITY POS ADMIN</h2>
+        <p class="hero-subtitle" style="color: var(--text-muted); margin-top: 4px;">Live order stream & table schedules</p>
+      </div>
+
+      <div class="admin-tabs-nav">
+        <button class="admin-tab-btn active" id="adminOrdersTabBtn" data-tab="orders">📦 Orders</button>
+        <button class="admin-tab-btn" id="adminResTabBtn" data-tab="reservations">📅 Reservations</button>
+      </div>
+
+      <div class="menu-section" style="padding-top: 10px;">
+        <div id="adminOrdersSection">
+          <div id="adminOrdersList" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;"></div>
+        </div>
+
+        <div id="adminReservationsSection" style="display: none;">
+          <div id="adminReservationsList" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Action Button Cart -->
+    <button class="floating-cart-fab" id="floatingCartBtn" aria-label="Open Cart">
+      <svg viewBox="0 0 24 24">
+        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+      </svg>
+      <span class="floating-cart-badge" id="floatingCartBadge">0</span>
+    </button>
+
+    <!-- SCREEN 5: Shopping Cart & WhatsApp Billing Drawer -->
+    <div class="cart-drawer-overlay" id="cartOverlay">
+      <div class="cart-drawer">
+        <div class="cart-header">
+          <span class="cart-title">Cart & Digital Billing</span>
+          <button class="close-cart-btn" id="closeCartBtn" aria-label="Close Cart">✕</button>
+        </div>
+        
+        <!-- Cart Items List Container -->
+        <div class="cart-items-list" id="cartItemsList"></div>
+
+        <!-- Customer Delivery Details (Optional for delivery) -->
+        <div class="checkout-form-section" id="checkoutFormSection" style="display: none;">
+          <div class="form-group">
+            <label for="customerName">Customer Name</label>
+            <input type="text" id="customerName" placeholder="Enter guest name">
+          </div>
+          <div class="form-group">
+            <label for="customerAddress">Delivery Address / Table #</label>
+            <input type="text" id="customerAddress" placeholder="Flat/House No. or Table Number">
+          </div>
+        </div>
+
+        <!-- Floating Itemized Receipt Total & WhatsApp Billing Footer -->
+        <div class="cart-footer">
+          <!-- Floating Receipt Card -->
+          <div class="itemized-receipt-card">
+            <div class="price-summary-row">
+              <span>Items Subtotal</span>
+              <span id="cartSubtotal">₹0</span>
+            </div>
+            <div class="price-summary-row">
+              <span>GST & Service Charge (5%)</span>
+              <span id="cartTax">₹0</span>
+            </div>
+            <div class="price-summary-row total">
+              <span>Grand Total</span>
+              <span class="total-amount" id="cartTotal">₹0</span>
+            </div>
+          </div>
+
+          <!-- WhatsApp Receipt Phone Input & CTA -->
+          <div class="whatsapp-billing-section">
+            <div class="wa-input-wrapper">
+              <span class="wa-country-code">+91</span>
+              <input type="tel" id="waCustomerPhone" class="wa-phone-input" placeholder="Enter WhatsApp Mobile Number" maxlength="10">
+            </div>
+
+            <!-- Prominent WhatsApp Receipt Button -->
+            <button class="whatsapp-cta-btn" id="sendWhatsAppBtn">
+              <svg viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+              </svg>
+              Send Bill via WhatsApp
+            </button>
+
+            <!-- Secondary Standard Place Order -->
+            <button class="secondary-place-order-btn" id="placeOrderBtn">
+              Place Order without WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Admin Portal Security Authentication Modal -->
+    <div class="admin-login-modal-overlay" id="adminLoginModal" style="display: none;">
+      <div class="admin-login-card" id="adminLoginCard">
+        <button class="close-modal-btn" id="closeAdminLoginModalBtn" aria-label="Close Modal">✕</button>
+        <div class="security-lock-badge">
+          <svg viewBox="0 0 24 24">
+            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+          </svg>
+        </div>
+        <h3 class="login-card-title">ADMIN GATEKEEPER</h3>
+        <p class="login-card-desc">Restricted Access. Enter Admin credentials to access portal & orders.</p>
+
+        <form id="adminLoginForm" onsubmit="return false;" style="width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 8px;">
+          <div class="form-group">
+            <label for="adminUsernameInput">Admin Username</label>
+            <input type="text" id="adminUsernameInput" placeholder="Enter admin username" autocomplete="username" required>
+          </div>
+
+          <div class="form-group">
+            <label for="adminPasswordInput">Admin Password</label>
+            <input type="password" id="adminPasswordInput" placeholder="Enter password" autocomplete="current-password" required>
+          </div>
+
+          <div class="admin-login-error" id="adminLoginError" style="display: none;">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v4z"/></svg>
+            <span>Invalid credentials. Access denied.</span>
+          </div>
+
+          <button type="submit" class="admin-login-submit-btn" id="adminLoginSubmitBtn">
+            Authorize & Access Admin
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js?v=2.0"></script>
+</body>
+</html>
